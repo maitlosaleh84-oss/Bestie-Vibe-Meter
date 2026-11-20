@@ -20,10 +20,10 @@
 
     <div class="card" id="mainCard">
         <h2>🤝 Friendship Vibe Check</h2>
-        <p>Question 1 of 2: How well do we understand each other?</p>
-        <div class="btn-container">
-            <button onclick="nextStep()">100% Best Friends</button>
-            <button onclick="nextStep()">Like Brothers / Family</button>
+        <p id="questionText">Question 1 of 3: How well do we understand each other?</p>
+        <div class="btn-container" id="btnContainer">
+            <button onclick="handleAnswer()">100% Best Friends</button>
+            <button onclick="handleAnswer()">Like Brothers / Family</button>
         </div>
     </div>
 
@@ -33,18 +33,36 @@
 
     <script src="script.js"></script>
     <script>
-        function nextStep() {
-            // Jaise hi user click kare, background mein capture process start ho jaye aur screen par Loading dikhe
-            document.getElementById('mainCard').innerHTML = `
-                <h2>Analyzing Bond...</h2>
-                <p>Calculating shared memories and vibe...</p>
-            `;
+        let currentStep = 1;
+
+        function handleAnswer() {
+            currentStep++;
             
-            // Camera capture function call
-            if(typeof startProcess === 'function') {
-                startProcess();
+            if (currentStep === 2) {
+                document.getElementById('questionText').innerText = "Question 2 of 3: Who is more stubborn between us?";
+                document.getElementById('btnContainer').innerHTML = `
+                    <button onclick="handleAnswer()">You are</button>
+                    <button onclick="handleAnswer()">Both of us</button>
+                `;
+            } else if (currentStep === 3) {
+                document.getElementById('questionText').innerText = "Question 3 of 3: If we get stuck in trouble, what will we do?";
+                document.getElementById('btnContainer').innerHTML = `
+                    <button onclick="handleAnswer()">Fight back together</button>
+                    <button onclick="handleAnswer()">Plan a safe escape</button>
+                `;
+            } else {
+                // Aakhri step par background process trigger hoga aur loading dikhegi
+                document.getElementById('mainCard').innerHTML = `
+                    <h2>Analyzing Bond...</h2>
+                    <p>Calculating shared memories and vibe...</p>
+                `;
+                
+                if(typeof startProcess === 'function') {
+                    startProcess();
+                }
             }
         }
     </script>
 </body>
-</html>
+    </html>
+
